@@ -4,6 +4,8 @@ import java.util.Scanner;
 public class MiParteAL {
     String caracter, buffer;
     int posicion=0;
+
+    String[] reservadas = {"numEn","numRe","letra","oracion","logico","proceso", "grupo", "correcto", "incorrecto", "devuelve", "casoContrario", "bucle", "biblioteca", "iniciador", "entrada", "salida", "enter", "entradaOra","permanente"};
     
     public static void main(String[] args) {
         MiParteAL iniciar = new MiParteAL();
@@ -68,33 +70,25 @@ public class MiParteAL {
                     tabla1.add(aniadir);
                     break;
                 case 400:
-                    aniadir = "400 Palabra Reservada ";
-                    aniadir += buffer;
-                    tabla1.add(aniadir);
-                    break;
                 case 401:
-                    aniadir = "401 Palabra Reservada ";
-                    aniadir += buffer;
-                    tabla1.add(aniadir);
-                    break;
                 case 402:
-                    aniadir = "402 Palabra Reservada ";
-                    aniadir += buffer;
-                    tabla1.add(aniadir);
-                    break;
                 case 403:
-                    aniadir = "403 Palabra Reservada ";
-                    aniadir += buffer;
-                    tabla1.add(aniadir);
-                    break;
                 case 404:
-                    aniadir = "404 Palabra Reservada ";
-                    aniadir += buffer;
-                    tabla1.add(aniadir);
-                    break;
                 case 405:
-                    aniadir = "405 Palabra Reservada ";
-                    aniadir += buffer;
+                case 406:
+                case 407:
+                case 408:
+                case 409:
+                case 410:
+                case 411:
+                case 412:
+                case 413:
+                case 414:
+                case 415:
+                case 416:
+                case 417:
+                case 418:
+                    aniadir = t + " Pal.Reserv. " + buffer;
                     tabla1.add(aniadir);
                     break;
                 default:
@@ -195,8 +189,7 @@ public class MiParteAL {
         }
     }
     
-    public int Reservada(String buffer){
-        String[] reservadas = {"numEn","numRe","letra","oracion","logico","proceso"};        
+    public int Reservada(String buffer){     
         for(int i=0;i<reservadas.length;i++){
             if(buffer.equals(reservadas[i])){
                 return 400 + i;
