@@ -6,7 +6,7 @@ public class MiParteAL {
     int posicion=0;
 
     String[] reservadas = {"numEn","numRe","letra","oracion","logico","proceso", "grupo", "correcto", "incorrecto", "devuelve", "casoContrario", "bucle", "biblioteca", "iniciador", "entrada", "salida", "enter", "entradaOra","permanente"};
-    String[] operador_1 = {"(",")",":","[","]","$","#","°","*","+","*",";"};
+    String[] operador_1 = {"(",")",":","[","]","$","#","°","*","+","*",";","}",">","-"};
 
     public static void main(String[] args) {
         MiParteAL iniciar = new MiParteAL();
@@ -104,6 +104,19 @@ public class MiParteAL {
                 case 2009:
                 case 2010:
                 case 2011:
+                case 2012:
+                case 2013:
+                case 2014:
+                case 2015:
+                case 2016:
+                case 2017:
+                case 2018:
+                case 2019:
+                case 2020:
+                case 2021:
+                case 2022:
+                case 2023:
+                case 2024:
                     aniadir = t + " Operador " + buffer;
                     tabla1.add(aniadir);
                     break;
@@ -153,12 +166,48 @@ public class MiParteAL {
                                         return Operador(a);
                                     }
                                     else{
-                                        if(a != ' '){
-                                            posicion++;
-                                            return 1000; //bota error y acaba el programa, el posicion++ no es necesario
+                                        if(a == '{'){
+                                            e = 3;
+                                            i++;
                                         }
                                         else{
-                                            e = 0; //no se para que sirve pero el profe lo tiene en su programa
+                                            if(a == '<'){
+                                                e = 4;
+                                                i++;
+                                            }
+                                            else{
+                                                if(a == '='){
+                                                    e = 5;
+                                                    i++;
+                                                }
+                                                else{
+                                                    if(a == '?'){
+                                                        e = 6;
+                                                        i++;
+                                                    }
+                                                    else{
+                                                        if(a == '!'){
+                                                            e = 7;
+                                                            i++;
+                                                        }
+                                                        else{
+                                                            if(a == '/'){
+                                                                e = 8;
+                                                                i++;
+                                                            }
+                                                            else{
+                                                                if(a != ' '){
+                                                                    posicion++;
+                                                                    return 1000; //bota error y acaba el programa, el posicion++ no es necesario
+                                                                }
+                                                                else{
+                                                                    e = 0; //no se para que sirve pero el profe lo tiene en su programa
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -186,6 +235,84 @@ public class MiParteAL {
                             }
                             i++;
                         break;
+
+                        case 3:
+                            if(a == '='){
+                                buffer += a;
+                                posicion++;
+                                return 2015;
+                            }
+                            else{
+                                return 2016;
+                            }
+                        
+                        case 4:
+                            if(a == '-'){
+                                buffer += a;
+                                i++;
+                                e = 9;
+                            }
+                            else{
+                                return 2018;
+                            }
+                            break;
+                        
+                        case 5:
+                            if(a == '}'){
+                                buffer += a;
+                                posicion++;
+                                return 2019;
+                            }
+                            else{
+                                return 2020;
+                            }
+                        
+                        case 6:
+                            if(a == '?'){
+                                buffer +=a;
+                                posicion++;
+                                return 2021;
+                            }
+                            else{
+                                if(a == '!'){
+                                    buffer += a;
+                                    posicion++;
+                                    return 2022;
+                                }
+                                else{
+                                    return 1000;
+                                 }
+                            }
+                        
+                        case 7:
+                            if(a == '!'){
+                                buffer +=a;
+                                posicion++;
+                                return 2023;
+                            }
+                            else{
+                                return 1000;
+                            }
+                        
+                        case 8:
+                            if(a== '/'){
+                                buffer += a;
+                                posicion++;
+                                return 2024;
+                            }
+                            else{
+                                return 1000;
+                            }
+                        case 9:
+                            if(a == '>'){
+                                buffer += a;
+                                posicion++;
+                                return 2017;
+                            }
+                            else{
+                                posicion++;
+                                return 1000; //arroja error ya que en el buffer habria "<-" pero no le seguiria un '>'
+                            }
                     }
                     posicion++;
                 }
