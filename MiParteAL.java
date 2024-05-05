@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MiParteAL {
-    String caracter, buffer;
+    String caracter, buffer, aux = "";
     int posicion=0;
 
     String[] reservadas = {"numEn","numRe","letra","oracion","logico","proceso", "grupo", "correcto", "incorrecto", "devuelve", "casoContrario", "bucle", "biblioteca", "iniciador", "entrada", "salida", "enter", "entradaOra","permanente"};
@@ -66,7 +66,12 @@ public class MiParteAL {
                     tabla1.add(aniadir);
                     break;
                 case 300:
-                    aniadir = "300 Numero ";
+                    aniadir = "300 Num. Entero ";
+                    aniadir += buffer;
+                    tabla1.add(aniadir);
+                    break;
+                case 301:
+                    aniadir = "301 Num. Decimal ";
                     aniadir += buffer;
                     tabla1.add(aniadir);
                     break;
@@ -133,6 +138,8 @@ public class MiParteAL {
         int i = 0, e = 0;
         char a;
         buffer = "";
+        buffer += aux;
+        aux = "";
         while(true){
             a = caracter.charAt(posicion);
             
@@ -158,6 +165,8 @@ public class MiParteAL {
                             return 1000;
                         case 8:
                             return 1000;
+                        case 10:
+                            return 301;
 		    }
                 }
                 else{
@@ -230,11 +239,24 @@ public class MiParteAL {
 
                         case 1: 
                             if(Character.isDigit(a)){
-                                buffer += a;
-                                e = 1;
+                                if(buffer.equals("0.")){
+                                    buffer += a;
+                                    e = 10;
+                                }
+                                else{
+                                    buffer += a;
+                                    e = 1;
+                                }
                             }
                             else{
-                                return 300; //numero
+                                if(a == '.'){
+                                    buffer += a;
+                                    e = 10;
+                                }
+                                else{
+                                    
+                                    return 300; //numero
+                                }
                             }
                             i++;
                         break;    
@@ -327,6 +349,21 @@ public class MiParteAL {
                                 posicion++;
                                 return 1000; //arroja error ya que en el buffer habria "<-" pero no le seguiria un '>'
                             }
+
+                        case 10:
+                            if(Character.isDigit(a)){
+                                buffer += a;
+                                e = 10;
+                            }
+                            else{
+                                if(a == '.'){
+                                    aux = "0.";
+                                    posicion++;
+                                    return 301; //el unico problema es que el siguiente decimal lo imprimirá como entero
+                                }
+                                return 301;
+                            }
+                            break;
                     }
                     posicion++;
                 }
