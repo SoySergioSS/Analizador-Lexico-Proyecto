@@ -142,8 +142,22 @@ public class MiParteAL {
             else{
                 if (a == '&') {
                     switch(e){
-                        case 1:  return 300;
-                        case 2:  return Reservada(buffer);
+                        case 1:  
+                            return 300;
+                        case 2:  
+                            return Reservada(buffer);
+                        case 3:
+                            return 2016;
+                        case 4:
+                            return 2018;
+                        case 5:
+                            return 2019;
+                        case 6:
+                            return 1000;
+                        case 7:
+                            return 1000;
+                        case 8:
+                            return 1000;
 		    }
                 }
                 else{
