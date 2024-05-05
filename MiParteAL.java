@@ -6,7 +6,8 @@ public class MiParteAL {
     int posicion=0;
 
     String[] reservadas = {"numEn","numRe","letra","oracion","logico","proceso", "grupo", "correcto", "incorrecto", "devuelve", "casoContrario", "bucle", "biblioteca", "iniciador", "entrada", "salida", "enter", "entradaOra","permanente"};
-    
+    String[] operador_1 = {"(",")",":","[","]","$","#","°","*","+","*",";"};
+
     public static void main(String[] args) {
         MiParteAL iniciar = new MiParteAL();
         iniciar.Escaner();
@@ -27,7 +28,7 @@ public class MiParteAL {
 
         entrada.close();
 
-        caracter = caracter + "#";
+        caracter = caracter + "&";
         do{
             t = Scanner();
             switch(t){
@@ -91,6 +92,21 @@ public class MiParteAL {
                     aniadir = t + " Pal.Reserv. " + buffer;
                     tabla1.add(aniadir);
                     break;
+                case 2000:
+                case 2001:
+                case 2002:
+                case 2003:
+                case 2004:
+                case 2005:
+                case 2006:
+                case 2007:
+                case 2008:
+                case 2009:
+                case 2010:
+                case 2011:
+                    aniadir = t + " Operador " + buffer;
+                    tabla1.add(aniadir);
+                    break;
                 default:
                     System.out.println("FINALIZO POR ERROR");
                     salir = false;
@@ -107,14 +123,14 @@ public class MiParteAL {
         while(true){
             a = caracter.charAt(posicion);
             
-            if(a=='#' && i==0){
+            if(a=='&' && i==0){
                 return 0;
             }
             else{
-                if (a == '#') {
+                if (a == '&') {
                     switch(e){
-		        case 1:  return 300;
-		        case 2:  return Reservada(buffer);
+                        case 1:  return 300;
+                        case 2:  return Reservada(buffer);
 		    }
                 }
                 else{
@@ -132,29 +148,17 @@ public class MiParteAL {
                                     i++;
                                 }
                                 else{
-                                    if(a == '('){
+                                    if(VerificarOperador(a)){
                                         posicion++;
-                                        return 101;
+                                        return Operador(a);
                                     }
                                     else{
-                                        if(a == ')'){
+                                        if(a != ' '){
                                             posicion++;
-                                            return 102;
+                                            return 1000; //bota error y acaba el programa, el posicion++ no es necesario
                                         }
                                         else{
-                                            if(a == ':'){
-                                                posicion++;
-                                               return 200; 
-                                            }
-                                            else{
-                                                if(a != ' '){
-                                                    posicion++;
-                                                    return 1000;
-                                                }
-                                                else{
-                                                    e = 0;
-                                                }
-                                            }
+                                            e = 0; //no se para que sirve pero el profe lo tiene en su programa
                                         }
                                     }
                                 }
@@ -196,5 +200,27 @@ public class MiParteAL {
             }
         }
         return 100;
+    }
+
+    public int Operador(char a){
+        String caracter = String.valueOf(a);
+
+        for(int i=0;i<operador_1.length;i++){
+            if(caracter.equals(operador_1[i])){
+                return 2000 + i;
+            }
+        }
+        return 1000; //en teoria nunca deberia entrar aca xd
+    }
+
+    public boolean VerificarOperador(char a){
+        String caracter = String.valueOf(a);
+
+        for(int i=0;i<operador_1.length;i++){
+            if(caracter.equals(operador_1[i])){
+                return true;
+            }
+        }
+        return false;
     }
 }
