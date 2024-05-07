@@ -6,7 +6,7 @@ public class MiParteAL {
     int posicion=0;
 
     String[] reservadas = {"numEn","numRe","letra","oracion","logico","proceso", "grupo", "correcto", "incorrecto", "devuelve", "casoContrario", "bucle", "biblioteca", "iniciador", "entrada", "salida", "enter", "entradaOra","permanente"};
-    String[] operador_1 = {"(",")",":","[","]","$","#","°","*","+","*",";","}",">","-"};
+    String[] operador_1 = {"(",")",":","[","]","$","#","°","*","+","%",";","}",">","-"};
 
     public static void main(String[] args) {
         MiParteAL iniciar = new MiParteAL();
@@ -49,21 +49,6 @@ public class MiParteAL {
                     aniadir += buffer;
                     tabla1.add(aniadir);
                     tabla2.add(aniadir);
-                    break;
-                case 101:
-                    aniadir = "101 Operador ";
-                    aniadir += buffer;
-                    tabla1.add(aniadir);
-                    break;
-                case 102:
-                    aniadir = "102 Operador ";
-                    aniadir += buffer;
-                    tabla1.add(aniadir);
-                    break;
-                case 200:
-                    aniadir = "200 Operador ";
-                    aniadir += buffer;
-                    tabla1.add(aniadir);
                     break;
                 case 300:
                     aniadir = "300 Num. Entero ";
@@ -122,6 +107,7 @@ public class MiParteAL {
                 case 2022:
                 case 2023:
                 case 2024:
+                case 2025:
                     aniadir = t + " Operador " + buffer;
                     tabla1.add(aniadir);
                     break;
@@ -135,11 +121,13 @@ public class MiParteAL {
     
     public int Scanner(){
         
-        int i = 0, e = 0;
+        int i = 0, e = 0, u=0;
         char a;
         buffer = "";
         buffer += aux;
+        
         aux = "";
+        ArrayList<Character> diferentes = new ArrayList<>();
         while(true){
             a = caracter.charAt(posicion);
             
@@ -151,8 +139,13 @@ public class MiParteAL {
                     switch(e){
                         case 1:  
                             return 300;
-                        case 2:  
+                        case 2: 
+                            if(i>=3 && u>=3){ 
                             return Reservada(buffer);
+                            }
+                            else{
+                                return 1000; //habria un identificador con menos de 3 caracteres justo antes de terminar la cadena
+                            }
                         case 3:
                             return 2016;
                         case 4:
@@ -179,12 +172,16 @@ public class MiParteAL {
                                 i++;
                             }
                             else{
-                                if(Character.isAlphabetic(a)){
+                                if(Character.isAlphabetic(a) || a == '_'){
                                     e = 2;  
+
+                                    diferentes.add(a);
+                                    u++;
+
                                     i++;
                                 }
                                 else{
-                                    if(VerificarOperador(a)){
+                                    if(Operador(a)>=2000){
                                         posicion++;
                                         return Operador(a);
                                     }
@@ -220,7 +217,6 @@ public class MiParteAL {
                                                             }
                                                             else{
                                                                 if(a != ' '){
-                                                                    posicion++;
                                                                     return 1000; //bota error y acaba el programa, el posicion++ no es necesario
                                                                 }
                                                                 else{
@@ -239,7 +235,7 @@ public class MiParteAL {
 
                         case 1: 
                             if(Character.isDigit(a)){
-                                if(buffer.equals("0.")){
+                                if("0.".equals(buffer)){
                                     buffer += a;
                                     e = 10;
                                 }
@@ -262,12 +258,24 @@ public class MiParteAL {
                         break;    
 
                         case 2: 
-                            if(Character.isDigit(a) || Character.isAlphabetic(a)){
+                            if(Character.isDigit(a) || Character.isAlphabetic(a) || a == '_'){
                                 buffer += a;
+
+                                if(!diferentes.contains(a)){
+                                    diferentes.add(a);
+                                    u++;
+                                }
+
                                 e=2;
                             }
                             else{
-                                return Reservada(buffer);
+                                if(i>=3 && u>=3){
+                                    System.out.println(u);
+                                    return Reservada(buffer);
+                                }
+                                else{
+                                    return 1000; //habria un identificador con menos de 3 caracteres
+                                }
                             }
                             i++;
                         break;
@@ -337,7 +345,7 @@ public class MiParteAL {
                                 return 2024;
                             }
                             else{
-                                return 1000;
+                                return 2025;
                             }
                         case 9:
                             if(a == '>'){
@@ -388,17 +396,6 @@ public class MiParteAL {
                 return 2000 + i;
             }
         }
-        return 1000; //en teoria nunca deberia entrar aca xd
-    }
-
-    public boolean VerificarOperador(char a){
-        String caracter = String.valueOf(a);
-
-        for(int i=0;i<operador_1.length;i++){
-            if(caracter.equals(operador_1[i])){
-                return true;
-            }
-        }
-        return false;
+        return 1000; 
     }
 }
