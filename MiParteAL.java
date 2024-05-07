@@ -160,7 +160,7 @@ public class MiParteAL {
                             return 1000;
                         case 10:
                             return 301;
-		    }
+		            }
                 }
                 else{
                     buffer = buffer.trim(); // Eliminar espacios en blanco alrededor del buffer
@@ -168,8 +168,14 @@ public class MiParteAL {
                         case 0:
                             buffer += a;
                             if (Character.isDigit(a)) {
-                                e = 1;
+                                if(buffer.startsWith("0.")){
+                                    e = 10;
+                                    i++;
+                                }
+                                else{
+                                    e = 1;
                                 i++;
+                                }
                             }
                             else{
                                 if(Character.isAlphabetic(a) || a == '_'){
@@ -222,6 +228,7 @@ public class MiParteAL {
                                                                 else{
                                                                     e = 0; //no se para que sirve pero el profe lo tiene en su programa
                                                                 }
+                                                                
                                                             }
                                                         }
                                                     }
@@ -235,14 +242,8 @@ public class MiParteAL {
 
                         case 1: 
                             if(Character.isDigit(a)){
-                                if("0.".equals(buffer)){
-                                    buffer += a;
-                                    e = 10;
-                                }
-                                else{
-                                    buffer += a;
+                                buffer += a;
                                     e = 1;
-                                }
                             }
                             else{
                                 if(a == '.'){
@@ -270,7 +271,6 @@ public class MiParteAL {
                             }
                             else{
                                 if(i>=3 && u>=3){
-                                    System.out.println(u);
                                     return Reservada(buffer);
                                 }
                                 else{
